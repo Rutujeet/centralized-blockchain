@@ -1,0 +1,16 @@
+{
+    "name": "centralized-blockchain-server",
+    "version": "1.0.0",
+    "description": "Central server for the centralized blockchain network",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "ws": "^7.5.3",
+        "crypto-js": "^4.1.1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+}

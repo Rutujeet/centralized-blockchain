@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple Blockchain Demo</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      button {
+        margin: 10px 0;
+        padding: 5px 10px;
+      }
+      #log {
+        border: 1px solid #ccc;
+        padding: 10px;
+        height: 200px;
+        overflow-y: scroll;
+      }
+      #blockchain {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Simple Blockchain Demo</h1>
+    <button id="mine">Mine a Block</button>
+    <button id="sendTx">Send Transaction</button>
+    <h2>Log</h2>
+    <div id="log"></div>
+    <h2>Blockchain</h2>
+    <div id="blockchain"></div>
+
+    <script>
+      const ws = new WebSocket("ws://localhost:8080");
+      const logElement = document.getElementById("log");
+      const blockchainElement = document.getElementById("blockchain");
+
+      function log(message) {
+        const p = document.createElement("p");
+        p.textContent = message;
+        logElement.appendChild(p);
+        logElement.scrollTop = logElement.scrollHeight;
+      }
+
+      ws.onopen = () => {
+        log("Connected to central server");
+      };
+
+      ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        switch (data.type) {
+          case "NEW_BLOCK":
+            log(`New block mined: ${data.block.hash}`);
+            updateBlockchain();
+            break;
+          case "NEW_TRANSACTION":
+            log(`New transaction: ${data.transaction.amount} coins`);
+            break;
+          case "BLOCKCHAIN":
+            updateBlockchainView(data.chain);
+            break;
+        }
+      };
+
+      document.getElementById("mine").addEventListener("click", () => {
+        ws.send(JSON.stringify({ type: "MINE" }));
+        log("Mining request sent");
+      });
+
+      document.getElementById("sendTx").addEventListener("click", () => {
+        const transaction = {
+          fromAddress: "MyWallet",
+          toAddress: "SomeoneElse",
+          amount: Math.floor(Math.random() * 100) + 1,
+        };
+        ws.send(JSON.stringify({ type: "NEW_TRANSACTION", transaction }));
+        log(`Transaction sent: ${transaction.amount} coins`);
+      });
+
+      function updateBlockchain() {
+        ws.send(JSON.stringify({ type: "GET_BLOCKCHAIN" }));
+      }
+
+      function updateBlockchainView(chain) {
+        blockchainElement.innerHTML = chain
+          .map((block) => `<div>Block ${block.index}: ${block.hash}</div>`)
+          .join("");
+      }
+
+      updateBlockchain(); // Initial blockchain state
+    </script>
+  </body>
+</html>

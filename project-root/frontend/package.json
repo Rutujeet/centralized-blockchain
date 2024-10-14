@@ -1,0 +1,12 @@
+{
+    "name": "centralized-blockchain-frontend",
+    "version": "1.0.0",
+    "description": "Frontend for the centralized blockchain network",
+    "scripts": {
+      "start": "http-server -c-1 .",
+      "dev": "http-server -c-1 -p 8081 ."
+    },
+    "dependencies": {
+      "http-server": "^0.12.3"
+    }
+  }

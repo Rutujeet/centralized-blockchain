@@ -1,0 +1,15 @@
+{
+    "name": "centralized-blockchain-miner",
+    "version": "1.0.0",
+    "description": "Miner node for the centralized blockchain network",
+    "main": "miner.js",
+    "scripts": {
+        "start": "node miner.js"
+    },
+    "dependencies": {
+        "ws": "^7.5.3"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+}
