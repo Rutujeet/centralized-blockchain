@@ -1,7 +1,6 @@
 # Simplified Centralized Blockchain Demo
 
-This project demonstrates a basic implementation of a centralized blockchain system inspired by the core concepts of Bitcoin. It's designed for educational purposes to help understand the fundamentals of blockchain technology.
-
+This project demonstrates a basic implementation of a centralized blockchain system inspired by the core concepts of Bitcoin.
 ## Table of Contents
 1. [Project Overview](#project-overview)
 2. [Components](#components)
